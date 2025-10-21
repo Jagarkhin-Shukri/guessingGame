@@ -1,0 +1,12 @@
+*~
+.classpath
+*.class
+.project
+target
+.settings
+.DS_Store
+_MANIFEST.MF
+.idea
+*.iml
+*.jar
+bin
