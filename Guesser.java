@@ -63,14 +63,14 @@ public class Guesser {
     String reply = null;
 
     while (true) {
-      reply = scanner.nextLine().trim().toUpperCase(); // läser in och gör versaler
+      reply = scanner.nextLine().trim().toUpperCase();
 
       if (reply.equals("T") || reply.equals("F")) {
         return reply;
       } else {
         System.out.println("Please answer T or F:");
       }
-      scanner.close();
+      
     }
   }
 
