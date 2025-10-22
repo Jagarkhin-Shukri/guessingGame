@@ -1,40 +1,15 @@
 import java.io.Console;
 import java.util.Scanner;
 
-/**
- * Assignment 1 - Guessing Game
- * 
- * Here's the unfinished source code
- * for the Guesser class. It is your
- * task to complete the missing parts.
- */
 public class Guesser {
   private int low;
   private int high;
-
-  /*
-   * Task 1. Write code here for a constructor
-   * which takes two int arguments and saves
-   * them in the instance variables low and high.
-   *
-   * If you don't remember the syntax for how to write
-   * constructors, revisit the chapter "Classes"
-   * and review the section about constructors.
-   *
-   */
-
-  // Write the constructor below this line.
 
   public Guesser(int low, int high) {
     this.low = low;
     this.high = high;
   }
 
-  /*
-   * Task 2. Complete the start() method, so that
-   * in the method body, you call first the
-   * rules() method, next the doGuesses() method.
-   */
   public void start() {
     rules();
     doGuesses();
@@ -48,16 +23,6 @@ public class Guesser {
     System.out.println("Please answer T for true, and F for false.\n");
   }
 
-  /*
-   * Task 3. Complete the code for the getReply() method.
-   * In the current version below, it returns null each
-   * call, which is not what this method is supposed to do.
-   * 
-   * Instead, change the method so that it reads a reply
-   * from the player, and if it is "T" or "F", we have
-   * a valid reply. Return the String that you read from
-   * the player.
-   */
   private String getReply() {
     Scanner scanner = new Scanner(System.in);
     String reply = null;
@@ -70,34 +35,30 @@ public class Guesser {
       } else {
         System.out.println("Please answer T or F:");
       }
-      
+
     }
   }
 
   private void doGuesses() {
-    int i = 0; // number of guesses
+    int i = 0;
     int middle = 0;
     while (low < high) {
-      // Set next guess to the middle between
-      // current low and current high
+
       middle = low + (high - low) / 2;
 
       System.out.println("Is the number less than or equal to " +
           middle + "?");
       String reply = getReply();
       if ("T".equals(reply)) {
-        // The number is less than or equal to middle
-        // so we move down high to middle
+
         high = middle;
       } else {
-        // The number is greater than middle,
-        // so we move up low to middle + 1
+
         low = middle + 1;
       }
-      i++; // One more guess!
+      i++;
     }
-    // When low has met high, we don't enter the loop
-    // and we have found the number
+
     answer(low, i);
   }
 
