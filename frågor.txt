@@ -42,14 +42,14 @@ Switched to a new branch 'test-backup'
 jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ echo "Test 1
 " > fil.txt
 git add fil.txt
-git commit -m "Lade till rad 1"
+git commit -m "Lade till Test 1"
 [test-backup b2644e8] Lade till Test 1
  1 file changed, 1 insertion(+)
  create mode 100644 fil.txt
 
 jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ echo "Test 2" > fil.txt
 git add fil.txt
-git commit -m "Lade till rad 2"
+git commit -m "Lade till Test 2"
 [test-backup b687992] Lade till Test 2
  1 file changed, 1 insertion(+), 1 deletion(-)
 
