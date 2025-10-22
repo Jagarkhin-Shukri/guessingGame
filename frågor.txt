@@ -1,0 +1,105 @@
+1. Vad är pull respektive push?
+git pull hämtar och uppdaterar lokala kod med de senaste ändringarna från det fjärr-repo (GitHub).
+git push skickar lokala commits till fjärr-repot så att de syns på GitHub.
+	
+
+2. När använder man log respektive status?
+git status visar vilka filer som har ändrats, är ocommittade eller redo att commitas.
+git log visar historiken över commits, vem som gjort vad och när.
+
+	Exempel:
+	jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+	3114c98 (HEAD -> main, origin/main) Clean Version
+	da14f33 Added run_game.sh script
+	7d07e16 Implemented getReply() Removed scanner.close
+	723babb Implemented getReply()
+	4d08a0b Implement start() method and call it in main
+	dd652bc Add constructor and main class
+	6b0dc75 add Guesser.java source file
+	324ecf3 add gitignore file
+
+3. Vad är en Git branch och varför är de viktiga?
+En branch (gren) är en separat utvecklingslinje där man kan testa eller lägga till nya funktioner utan att påverka huvudkoden.
+De är viktiga eftersom de låter flera personer arbeta parallellt och man kan experimentera utan att förstöra main-branchen.
+
+4. I Git kan man gå tillbaka till ett tidigare version på olika sätt, beroende på vad man vill uppnå och hur säkert man vill göra det.
+
+Kommandot git checkout kan användas för att tillfälligt gå tillbaka till ett tidigare commit för att läsa eller testa koden, utan att ändra historiken.
+Det påverkar alltså inte projektets historik eller innehåll permanent.
+När man vill återgå till den nuvarande versionen igen används kommandot: git checkout main
+
+Kommandot git revert går att användas om man redan har pushat ändringar till GitHub och vill ångra en specifik commit utan att radera historiken.
+Detta görs genom att skapa en ny commit som “tar bort” effekten av den tidigare.
+Det är den säkraste metoden att använda eftersom hela historiken bevaras oförändrad.
+
+
+
+Exempel:
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git checkout -b test-backup
+Switched to a new branch 'test-backup'
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ echo "Test 1
+" > fil.txt
+git add fil.txt
+git commit -m "Lade till rad 1"
+[test-backup b2644e8] Lade till Test 1
+ 1 file changed, 1 insertion(+)
+ create mode 100644 fil.txt
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ echo "Test 2" > fil.txt
+git add fil.txt
+git commit -m "Lade till rad 2"
+[test-backup b687992] Lade till Test 2
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+b687992 (HEAD -> test-backup) Lade till Test 2
+b2644e8 Lade till Test 1
+3f2fbcf (test-revert) Revert "test commit 1"
+78af422 test commit 1
+3114c98 (origin/main, main) Clean Version
+da14f33 Added run_game.sh script
+7d07e16 Implemented getReply() Removed scanner.close
+723babb Implemented getReply()
+4d08a0b Implement start() method and call it in main
+dd652bc Add constructor and main class
+6b0dc75 add Guesser.java source file
+324ecf3 add gitignore file
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git checkout
+ b2644e8
+Note: switching to 'b2644e8'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at b2644e8 Lade till Test 1
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git checkout test-backup
+Previous HEAD position was b2644e8 Lade till Test 1
+Switched to branch 'test-backup'
+
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git revert b
+687992
+[test-backup 0e745ed] Revert "Lade till Test 2"
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+
