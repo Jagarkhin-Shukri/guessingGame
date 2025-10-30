@@ -1,0 +1,104 @@
+1. Vad är pull respektive push?
+git pull hämtar och uppdaterar lokala kod med de senaste ändringarna från det fjärr-repo (GitHub).
+git push skickar lokala commits till fjärr-repot så att de syns på GitHub.
+	
+
+2. När använder man log respektive status?
+git status visar vilka filer som har ändrats, är ocommittade eller redo att commitas.
+git log visar historiken över commits, vem som gjort vad och när.
+
+	Exempel:
+	jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+	3114c98 (HEAD -> main, origin/main) Clean Version
+	da14f33 Added run_game.sh script
+	7d07e16 Implemented getReply() Removed scanner.close
+	723babb Implemented getReply()
+	4d08a0b Implement start() method and call it in main
+	dd652bc Add constructor and main class
+	6b0dc75 add Guesser.java source file
+	324ecf3 add gitignore file
+
+3. Vad är en Git branch och varför är de viktiga?
+En branch (gren) är en separat utvecklingslinje där man kan testa eller lägga till nya funktioner utan att påverka huvudkoden.
+De är viktiga eftersom de låter flera personer arbeta parallellt och man kan experimentera utan att förstöra main-branchen.
+
+
+4. Olika sätt att rulla tillbaka koden.
+
+Det finns flera sätt att rulla tillbaka koden till ett tidigare tillstånd i Git.
+
+git restore kan man använda för att tillfälligt titta på en äldre commit utan att ändra historiken.
+Det är användbart om man bara vill läsa eller testa tidigare kod.
+
+exempel:
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+3114c98 (HEAD -> main) Clean Version
+da14f33 Added run_game.sh script
+7d07e16 Implemented getReply() Removed scanner.close
+723babb Implemented getReply()
+4d08a0b Implement start() method and call it in main
+dd652bc Add constructor and main class
+6b0dc75 add Guesser.java source file
+324ecf3 add gitignore file
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git restore --source=7d07e16 Guesser.java
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git restore Guesser.java
+
+Anta att jag råkar ändra Guesser.java av misstag och vill återställa den till hur den såg ut i commit 7d07e16.
+Då kan jag använda git restore för att hämta just den versionen utan att påverka historiken. Man kan även kontrollera att ändringen har skett med Kommandot:git diff 
+
+Om jag sedan ångrar återställningen och vill ha tillbaka senaste versionen igen kan jag använda kommandot:git restore Guesser.java
+
+
+
+git revert kan man använda om man till exempel redan har pushat till GitHub men vill ångra en commit utan att radera historiken.
+Det skapar en ny commit som “tar bort” effekten av den gamla. Detta är den säkraste metoden att använda, eftersom historiken bevaras.
+
+Exempel: Jag skapande en ny branch för att testa: git switch -c test
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git switch -c test
+Switched to a new branch 'test'
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git revert da14f33
+[test de8e084] Revert "Added run_game.sh script"
+ 1 file changed, 23 deletions(-)
+ delete mode 100644 run_game.sh
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+de8e084 (HEAD -> test) Revert "Added run_game.sh script"
+3114c98 (main) Clean Version
+da14f33 Added run_game.sh script
+7d07e16 Implemented getReply() Removed scanner.close
+723babb Implemented getReply()
+4d08a0b Implement start() method and call it in main
+dd652bc Add constructor and main class
+6b0dc75 add Guesser.java source file
+324ecf3 add gitignore file
+
+
+Git reset går bra att använda för att flytta HEAD (den aktuella positionen i historiken) bakåt till ett tidigare commit. Det finns olika  typer man kan använda sig av.
+
+
+  Typ                 Kommando                     Effekt                                                                                    
+   
+  soft             git reset --soft     Flyttar HEAD men behåller ändringar i Staging Area och Working Directory                                  
+  mixed            git reset --mixed    Flyttar HEAD och tar bort filer från staging, men sparar ändringarna i Working Directory.  
+  hard             git reset --hard     Tar bort alla ändringar permanent och flyttar HEAD till valt commit. Kan inte ångras heller om man                  					råkar använda kommandot av misstag. Det bör användas med stor försiktighet.
+
+Exempel:
+
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git reset --hard 7d07e16
+HEAD is now at 7d07e16 Implemented getReply() Removed scanner.close
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git switch main
+Switched to branch 'main'
+Your branch is behind 'origin/main' by 2 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+jagaradmin@MSI:/mnt/c/Users/jagar/inlämning/guessingGame$ git log --oneline
+3114c98 (HEAD -> main) Clean Version
+da14f33 Added run_game.sh script
+7d07e16 (test) Implemented getReply() Removed scanner.close
+723babb Implemented getReply()
+4d08a0b Implement start() method and call it in main
+dd652bc Add constructor and main class
+6b0dc75 add Guesser.java source file
+324ecf3 add gitignore file
+
+
+
